@@ -1,24 +1,24 @@
 import numpy
 
 input_size = 20
-hidden_layer_neurons = 10
+hidden_layer_neurons = 20
 output_size = 4
 
 
 class NeuralNetwork:
 
-    def __init__(self, weights=None):
-        weights = (numpy.random.normal(loc=0.5,
-                                       scale=0.1,
-                                       size=input_size*hidden_layer_neurons+hidden_layer_neurons*output_size)
-                   if not weights else weights)
+    def __init__(self, weights=numpy.zeros(20)):
+        if not weights.all():
+            weights = numpy.random.normal(loc=0,
+                                          scale=0.1,
+                                          size=input_size*hidden_layer_neurons+hidden_layer_neurons*output_size)
         self.first_weights = weights[:input_size*hidden_layer_neurons].reshape(hidden_layer_neurons, input_size)
         self.second_weights = weights[-hidden_layer_neurons*output_size:].reshape(output_size, hidden_layer_neurons)
 
     def _first_layer(self, inputs):
         apply_weights = self.first_weights * inputs
         # Applies ReLu activation function
-        first_layer_output = numpy.array(list(map(lambda x: numpy.maximum(0, sum(x)), apply_weights)))
+        first_layer_output = numpy.array(list(map(sum, apply_weights)))
 
         return first_layer_output
 
