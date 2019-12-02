@@ -13,17 +13,6 @@ from neuroevolution.neuroevolutive_player import NeuroEvoPlayer
 from neuroevolution.evolution_utils import *
 
 
-def play_net_training(net):
-    env = Environment(multiplemode="yes",
-                      enemies=[1, 3, 7, 8],
-                      playermode="ai",
-                      player_controller=NeuroEvoPlayer(),
-                      enemymode="static",
-                      savelogs="no",
-                      level=2)
-    return env.play(net)
-
-
 def play_net_result(net):
     env = Environment(multiplemode="yes",
                       enemies=[1, 2, 3, 4, 5, 6, 7, 8],
@@ -32,6 +21,17 @@ def play_net_result(net):
                       enemymode="static",
                       savelogs="yes",
                       experiment_name="neuro_result",
+                      level=2)
+    return env.play(net)
+
+
+def play_net_training(net):
+    env = Environment(multiplemode="yes",
+                      enemies=[1, 3, 7, 8],
+                      playermode="ai",
+                      player_controller=NeuroEvoPlayer(),
+                      enemymode="static",
+                      savelogs="no",
                       level=2)
     return env.play(net)
 
@@ -56,38 +56,11 @@ if __name__ == '__main__':
     num_generation = 100
     initial_population_num = 50
 
-    parent_nets = list(NeuralNetwork() for i in range(initial_population_num))
+    loaded_generation = load_generation()
 
-    # parent_nets = load_generation()
-
-    # first play
-    print(f"\ngen 0")
-    child_nets = cross(parent_nets, num_childs=initial_population_num)
-
-    child_nets = mutate(child_nets)
-
-    save_nets(parent_nets + child_nets)
-
-    generation_result = play_generation(parent_nets + child_nets)
+    generation_result = play_generation(loaded_generation)
 
     print([individual_result[0][2] for individual_result in generation_result])
-
-    for i in range(num_generation):
-        parent_nets_w_results = tournament(generation_result, num_next_gen_parents=initial_population_num)
-
-        parent_nets = [parent_net_w_result[1] for parent_net_w_result in parent_nets_w_results]
-
-        print(f"\ngen {i+1}")
-        child_nets = cross(parent_nets, num_childs=initial_population_num)
-
-        child_nets = mutate(child_nets)
-
-        save_nets(parent_nets + child_nets)
-
-        child_results = play_generation(child_nets)
-        generation_result = parent_nets_w_results + child_results
-
-        print([individual_result[0][2] for individual_result in generation_result])
 
     best_net = min(generation_result, key=lambda result_n_net: result_n_net[0][2])[1]
 

@@ -3,7 +3,7 @@ import random
 
 from neuroevolution.neural_network import NeuralNetwork
 
-mutation_percent = 0.5
+mutation_percent = 0.3
 
 
 def cross(parents_nets, num_childs):
