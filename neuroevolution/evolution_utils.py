@@ -53,9 +53,9 @@ def tournament(results_n_nets, num_next_gen_parents):
     return next_gen_parents_w_result
 
 
-def save_generation(generation_population):
+def save_nets(generation_population, archive_name="generation"):
     generation_weights = [individual.weights_to_1D_array() for individual in generation_population]
-    numpy.savetxt("generation.csv", generation_weights, delimiter=",")
+    numpy.savetxt(f"{archive_name}.csv", generation_weights, delimiter=",")
 
 
 def load_generation():
