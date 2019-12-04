@@ -58,8 +58,17 @@ def save_nets(generation_population, archive_name="generation"):
     numpy.savetxt(f"{archive_name}.csv", generation_weights, delimiter=",")
 
 
-def load_generation():
-    generation = numpy.loadtxt("generation.csv", delimiter=",")
+def load_generation(archive_name="generation.csv"):
+    generation = numpy.loadtxt(archive_name, delimiter=",")
     generation_nets = [NeuralNetwork(individual) for individual in generation]
 
     return generation_nets
+
+
+def load_individual(archive_name="best_net.csv"):
+    net_weights = numpy.loadtxt(archive_name, delimiter=",")
+    net = NeuralNetwork(net_weights)
+
+    return net
+
+

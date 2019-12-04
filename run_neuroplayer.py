@@ -24,18 +24,6 @@ def play_net_training(net):
     return env.play(net)
 
 
-def play_net_result(net):
-    env = Environment(multiplemode="yes",
-                      enemies=[1, 2, 3, 4, 5, 6, 7, 8],
-                      playermode="ai",
-                      player_controller=NeuroEvoPlayer(),
-                      enemymode="static",
-                      savelogs="yes",
-                      experiment_name="neuro_result",
-                      level=2)
-    return env.play(net)
-
-
 def play_generation(nets):
     bash_size = 5
     generation_result = list()
@@ -93,6 +81,3 @@ if __name__ == '__main__':
 
     save_nets([best_net], archive_name="best_net")
 
-    final_result = play_net_result(best_net)
-
-    print(final_result)

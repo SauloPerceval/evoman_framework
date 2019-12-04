@@ -9,10 +9,14 @@ class NeuralNetwork:
 
     def __init__(self, weights=numpy.zeros(20)):
         if not weights.all():
+            # Inicializa os pesos da rede criando um array de 1x480 com numeros aleatorios de
+            # distribuicao uniforme de -1 a 1
             weights = numpy.random.uniform(low=-1,
                                            high=1,
                                            size=input_size*hidden_layer_neurons+hidden_layer_neurons*output_size)
+        # Matriz 20x20 que representa os pesos das conexoes da entrada com a camada intermediara
         self.first_weights = weights[:input_size*hidden_layer_neurons].reshape(hidden_layer_neurons, input_size)
+        # Matriz 4x20 que representa os pesos das conexoes da camada intermediara com as saídas
         self.second_weights = weights[-hidden_layer_neurons*output_size:].reshape(output_size, hidden_layer_neurons)
 
     def _first_layer(self, inputs):
